@@ -1,5 +1,10 @@
 var inquirer = require("inquirer");
 
+var words = ["wordone", "wordtwo", "wordthree"];
+var index = Math.floor(Math.random() * words.length);
+var randomWord = words[index];
+console.log(randomWord);
+
 inquirer.prompt([
     {
         type: "text",
