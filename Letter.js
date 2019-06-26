@@ -1,3 +1,9 @@
+var words = ["wordone", "wordtwo", "wordthree"];
+var index = Math.floor(Math.random() * words.length);
+var randomWord = words[index];
+var potato;
+var newWord = "";
+
 //function called every time the letters from the chosen word are looped through
 function Letter(letter) {
     //place letter value into object
@@ -18,14 +24,8 @@ function Letter(letter) {
     }
 }
 
-var words = ["wordone", "wordtwo", "wordthree"];
-var index = Math.floor(Math.random() * words.length);
-var randomWord = words[index];
-var potato;
-var newWord = "";
-
 for (var i = 0; i < randomWord.length; i++) {
-    potato = new Letter(randomWord[i]);
-    newWord += randomWord[i];
+    newLetter = new Letter(randomWord[i]);
+    newWord += newLetter.wordDisplay() + " ";
 }
 console.log(newWord);
