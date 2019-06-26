@@ -1,22 +1,31 @@
-var inquirer = require("inquirer");
+//function called every time the letters from the chosen word are looped through
+function Letter(letter) {
+    //place letter value into object
+    this.letter = letter;
+    //switch for correct and incorrect guesses
+    this.correctLetter = false;
+    //piece together letters in a word
+    this.wordDisplay = function() {
+        //if guessed correctly, reveal letter
+        if (this.correctLetter === true) {
+            //console.log(this.letter);
+            return this.letter;
+        //if incorrect, display an underscore instead
+        } else {
+            //console.log("_");
+            return "_";
+        }
+    }
+}
 
 var words = ["wordone", "wordtwo", "wordthree"];
 var index = Math.floor(Math.random() * words.length);
 var randomWord = words[index];
-console.log(randomWord);
+var potato;
+var newWord = "";
 
-inquirer.prompt([
-    {
-        type: "text",
-        message: "Guess a letter",
-        name: "letter"    
-    }
-]).then(function(response) {
-    //if letter guessed is the same as a letter in the word
-    //reveal the underscore with the letter
-    //console log correct
-    //else if not correct
-    //display the non-updated word
-    //console.log incorrect
-    console.log(response.letter);
-})
+for (var i = 0; i < randomWord.length; i++) {
+    potato = new Letter(randomWord[i]);
+    newWord += randomWord[i];
+}
+console.log(newWord);
