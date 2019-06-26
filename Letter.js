@@ -14,7 +14,7 @@ var newWord = "";
 function Letter(letter) {
     //place letter value into object
     this.letter = letter;
-    //switch for correct and incorrect guesses
+    //correct letter guessed is default to false
     this.correctLetter = false;
     //piece together letters in a word
     this.wordDisplay = function() {
@@ -26,7 +26,8 @@ function Letter(letter) {
             return "_";
         }
     }
-    this.guess = function(guess) {
+    //switch for correct and incorrect guesses
+    this.correct = function(guess) {
         if (guess) {
             this.correctLetter = true;
         } else {
@@ -36,29 +37,44 @@ function Letter(letter) {
 }
 
 //prompt users to make a guess
-inquirer.prompt([
-    {
-        type: "input",
-        message: "Guess a letter",
-        name: "letter"    
-    }
-]).then(function(response) {
-    for (var i = 0; i < randomWord.length; i++) {
-        if (response.letter === randomWord[i]) {
-            newLetter = new Letter(randomWord[i]);
-            newLetter.guess(true);
+function wordGuess() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Guess a letter",
+            name: "letter",
+            validate: function(value) {
+                //if value is a number and value length is more than one
+                //does not work for values that aren't numbers and letters
+                if (!isNaN(value) || value.length > 2) {
+                    //console.log(!isNaN(value));
+                    return false;
+                } else {
+                    return true;
+                }
+            }    
         }
-        newWord += newLetter.wordDisplay() + " ";
-        newLetter.guess(false);
-    }
-    //if letter guessed is the same as a letter in the word
-    //reveal the underscore with the letter
-    //console log correct
-    //else if not correct
-    //display the non-updated word
-    //console.log incorrect
-    console.log(newWord);
-})
+    ]).then(function(response) {
+        for (var i = 0; i < randomWord.length; i++) {
+            newLetter = new Letter(randomWord[i]);
+            if (response.letter === randomWord[i]) {
+                newLetter.correct(true);
+            } else {
+                newLetter.correct(false);
+            }
+            newWord += newLetter.wordDisplay() + " ";
+        }
+        //if letter guessed is the same as a letter in the word
+        //reveal the underscore with the letter
+        //console log correct
+        //else if not correct
+        //display the non-updated word
+        //console.log incorrect
+        console.log(newWord);
+        wordGuess();
+    })
+}
+wordGuess();
 
 //notes
 //display guesses left
